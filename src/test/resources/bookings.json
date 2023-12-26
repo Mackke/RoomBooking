@@ -1,0 +1,72 @@
+[
+  {
+    "id": "1b91d84f-8ef3-4b35-9d2b-19b878b874c5",
+    "room": {
+      "id": "a1f3b736-5b7c-4d2a-bd3c-31f9c96bbf41",
+      "name": "Standard Room",
+      "description": "Cozy room with basic amenities",
+      "type": "Standard",
+      "beds": 2,
+      "price": 100.0
+    },
+    "startDate": "2023-12-10",
+    "endDate": "2023-12-13",
+    "archived": null
+  },
+  {
+    "id": "69f0d244-1c88-4d9f-b3c3-e17f7690d6fe",
+    "room": {
+      "id": "6e96d7bb-1a0c-4e95-bd3a-7a74e21f71ef",
+      "name": "Deluxe Suite",
+      "description": "Luxurious suite with a view",
+      "type": "Deluxe",
+      "beds": 3,
+      "price": 250.0
+    },
+    "startDate": "2023-12-05",
+    "endDate": "2023-12-15",
+    "archived": null
+  },
+  {
+    "id": "8c18d712-6395-41ea-8a0c-0dd811c44e4e",
+    "room": {
+      "id": "4f0a3a35-06a4-4a6f-9207-c8fe00a0e819",
+      "name": "Family Room",
+      "description": "Spacious room for families",
+      "type": "Family",
+      "beds": 4,
+      "price": 180.0
+    },
+    "startDate": "2024-01-20",
+    "endDate": "2024-01-29",
+    "archived": null
+  },
+  {
+    "id": "9f979871-5927-4c00-8b5c-f761fc5b201c",
+    "room": {
+      "id": "4f0a3a35-06a4-4a6f-9207-c8fe00a0e819",
+      "name": "Family Room",
+      "description": "Spacious room for families",
+      "type": "Family",
+      "beds": 4,
+      "price": 180.0
+    },
+    "startDate": "2023-01-19",
+    "endDate": "2023-01-29",
+    "archived": "2023-12-20"
+  },
+  {
+    "id": "e5ea388a-17ba-4ded-b6b9-aed84aacde39",
+    "room": {
+      "id": "ae8c05e8-4a2a-4774-89a9-7bc155e2d7a1",
+      "name": "Budget Room",
+      "description": "Economical room for cost-conscious travelers",
+      "type": "Economy",
+      "beds": 1,
+      "price": 60.0
+    },
+    "startDate": "2023-12-29",
+    "endDate": "2023-01-01",
+    "archived": null
+  }
+]
