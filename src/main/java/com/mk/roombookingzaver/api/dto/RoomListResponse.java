@@ -1,9 +1,8 @@
-package com.mk.roombookingzaver.response;
+package com.mk.roombookingzaver.api.dto;
 
 
 import java.util.List;
 
-import com.mk.roombookingzaver.dto.RoomDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoomResponseAll {
+public class RoomListResponse {
     private List<RoomDto> rooms;
 
     // {

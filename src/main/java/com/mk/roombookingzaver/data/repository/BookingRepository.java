@@ -1,11 +1,11 @@
-package com.mk.roombookingzaver.repository;
+package com.mk.roombookingzaver.data.repository;
 
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import com.mk.roombookingzaver.entity.Booking;
+import com.mk.roombookingzaver.data.entity.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

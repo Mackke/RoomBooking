@@ -12,12 +12,13 @@ import java.util.Optional;
 import java.util.UUID;
 import com.mk.roombookingzaver.exception.BookingNotFoundException;
 import com.mk.roombookingzaver.exception.RoomOccupiedException;
-import com.mk.roombookingzaver.entity.Booking;
-import com.mk.roombookingzaver.entity.Room;
-import com.mk.roombookingzaver.repository.BookingRepository;
-import com.mk.roombookingzaver.repository.RoomRepository;
-import com.mk.roombookingzaver.request.BookingRequest;
-import com.mk.roombookingzaver.response.BookingResponse;
+import com.mk.roombookingzaver.data.entity.Booking;
+import com.mk.roombookingzaver.data.entity.Room;
+import com.mk.roombookingzaver.data.repository.BookingRepository;
+import com.mk.roombookingzaver.data.repository.RoomRepository;
+import com.mk.roombookingzaver.api.dto.BookingRequest;
+import com.mk.roombookingzaver.api.dto.BookingResponse;
+import com.mk.roombookingzaver.mapper.BookingMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +33,8 @@ public class BookingServiceTest {
 
     private BookingService bookingService;
 
+    private BookingMapper mapper;
+
     @MockBean
     private BookingRepository bookingRepository;
 
@@ -39,7 +42,7 @@ public class BookingServiceTest {
     private RoomRepository roomRepository;
 
     @BeforeEach
-    void setUp() { bookingService = new BookingService(bookingRepository, roomRepository); }
+    void setUp() { bookingService = new BookingService(bookingRepository, roomRepository, mapper); }
 
     private static List<BookingRequest> unSuccessfulBookings() {
         return List.of(new BookingRequest(

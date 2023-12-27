@@ -1,17 +1,21 @@
-package com.mk.roombookingzaver.controller;
+package com.mk.roombookingzaver.api.controller;
 
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.mk.roombookingzaver.api.dto.ErrorResponse;
 import com.mk.roombookingzaver.exception.BookingNotFoundException;
-import com.mk.roombookingzaver.request.BookingRequest;
-import com.mk.roombookingzaver.response.BookingResponse;
-import com.mk.roombookingzaver.response.CurrentBookingsResponse;
+import com.mk.roombookingzaver.api.dto.BookingRequest;
+import com.mk.roombookingzaver.api.dto.BookingResponse;
+import com.mk.roombookingzaver.api.dto.BookingListResponse;
+import com.mk.roombookingzaver.exception.RoomNotFoundException;
+import com.mk.roombookingzaver.exception.RoomOccupiedException;
 import com.mk.roombookingzaver.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +29,7 @@ public class BookingController implements BookingControllerApi {
     private final BookingService bookingService;
 
     @Override
-    public ResponseEntity<CurrentBookingsResponse> getCurrentBookings(LocalDate startDate, LocalDate endDate) {
+    public ResponseEntity<BookingListResponse> getCurrentBookings(LocalDate startDate, LocalDate endDate) {
         return new ResponseEntity<>(bookingService.getCurrentBookings(startDate, endDate), HttpStatus.OK);
     }
 
@@ -42,4 +46,6 @@ public class BookingController implements BookingControllerApi {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
+
 }

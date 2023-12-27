@@ -5,8 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.mk.roombookingzaver.entity.Booking;
-import com.mk.roombookingzaver.entity.Room;
+import com.mk.roombookingzaver.data.entity.Booking;
+import com.mk.roombookingzaver.data.entity.Room;
 
 
 public class MapperUtil {

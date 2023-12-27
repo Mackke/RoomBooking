@@ -1,7 +1,7 @@
-package com.mk.roombookingzaver.response;
+package com.mk.roombookingzaver.api.dto;
 
 
-import com.mk.roombookingzaver.dto.BookingDto;
+import com.mk.roombookingzaver.api.dto.BookingDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,16 +1,18 @@
 package com.mk.roombookingzaver.service;
 
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
-import com.mk.roombookingzaver.dto.RoomDto;
-import com.mk.roombookingzaver.entity.Room;
-import com.mk.roombookingzaver.repository.BookingRepository;
-import com.mk.roombookingzaver.repository.RoomRepository;
-import com.mk.roombookingzaver.response.RoomResponseAll;
+import com.mk.roombookingzaver.api.dto.RoomDto;
+import com.mk.roombookingzaver.data.entity.Room;
+import com.mk.roombookingzaver.data.repository.BookingRepository;
+import com.mk.roombookingzaver.data.repository.RoomRepository;
+import com.mk.roombookingzaver.api.dto.RoomListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +26,13 @@ public class RoomService {
     private final BookingRepository bookingRepository;
 
     //Rename to Rooms
-    public RoomResponseAll getAvailableBookings(LocalDate startDate, LocalDate endDate, int numberOfBeds) {
+    public RoomListResponse getAvailableBookings(LocalDate startDate, LocalDate endDate, int numberOfBeds) {
         List<UUID> occupiedRooms = bookingRepository.currentBookings(startDate, endDate)
                 .stream()
                 .map(booking -> booking.getRoom().getId())
                 .toList();
 
-        return new RoomResponseAll(roomRepository.getRoomByBeds(numberOfBeds).stream()
+        return new RoomListResponse(roomRepository.getRoomByBeds(numberOfBeds).stream()
                 .filter(isAvailable(occupiedRooms))
                 .map(room -> new RoomDto())
                 .toList());

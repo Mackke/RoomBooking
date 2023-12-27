@@ -1,4 +1,4 @@
-package com.mk.roombookingzaver.dto;
+package com.mk.roombookingzaver.api.dto;
 
 import java.util.UUID;
 
