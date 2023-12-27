@@ -32,10 +32,7 @@ public class BookingService {
     public List<BookingDto> getCurrentBookings(LocalDate startDate, LocalDate endDate) {
         List<Booking> bookings = bookingRepository.currentBookings(startDate, endDate);
 
-        return bookings
-                .stream()
-                .map(bookingMapper::map)
-                .toList();
+        return bookingMapper.mapToBookingDtos(bookings);
     }
 
     public BookingDto createBooking(BookingRequest bookingRequest) {
@@ -74,4 +71,5 @@ public class BookingService {
                 (startDate.isAfter(booking.getStartDate()) && startDate.isBefore(booking.getEndDate())) ||
                 (endDate.isAfter(booking.getStartDate()) && endDate.isBefore(booking.getEndDate()));
     }
+
 }

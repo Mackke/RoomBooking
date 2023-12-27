@@ -17,7 +17,6 @@ import com.mk.roombookingzaver.entity.Room;
 import com.mk.roombookingzaver.exception.BookingNotFoundException;
 import com.mk.roombookingzaver.exception.RoomOccupiedException;
 import com.mk.roombookingzaver.mapper.BookingMapper;
-import com.mk.roombookingzaver.mapper.RoomMapper;
 import com.mk.roombookingzaver.repository.BookingRepository;
 import com.mk.roombookingzaver.repository.RoomRepository;
 import com.mk.roombookingzaver.request.BookingRequest;
@@ -26,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mapstruct.factory.Mappers;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -35,7 +35,7 @@ public class BookingServiceTest {
 
     private BookingService bookingService;
 
-    private BookingMapper bookingMapper;
+    private final BookingMapper bookingMapper = Mappers.getMapper(BookingMapper.class);
 
     @MockBean
     private BookingRepository bookingRepository;
@@ -44,7 +44,8 @@ public class BookingServiceTest {
     private RoomRepository roomRepository;
 
     @BeforeEach
-    void setUp() { bookingService = new BookingService(bookingRepository, roomRepository, bookingMapper); }
+    void setUp() {
+        bookingService = new BookingService(bookingRepository, roomRepository, bookingMapper); }
 
     private static List<BookingRequest> unSuccessfulBookings() {
         return List.of(new BookingRequest(

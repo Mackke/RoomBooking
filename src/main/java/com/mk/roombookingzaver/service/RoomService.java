@@ -36,27 +36,7 @@ public class RoomService {
 
         rooms.removeIf(isOccupied(occupiedRooms));
 
-        return rooms.stream().map(roomMapper::map).toList();
-
-
-
-        /* List<Room> rooms = roomRepository.getRoomByBeds(numberOfBeds);
-
-        List<UUID> roomIds = bookingRepository.currentBookings(startDate, endDate).stream().map(booking -> booking.getRoom().getId()).toList();
-
-        List<Room> roomsWithVacancy = rooms.stream().filter(room -> !roomIds.contains(room.getId())).toList();
-
-
-        return roomsWithVacancy.stream().map(room -> RoomDto.builder()
-                .id(room.getId())
-                .name(room.getName())
-                .type(room.getType())
-                .beds(room.getBeds())
-                .description(room.getDescription())
-                .price(room.getPrice())
-                .build()).toList();
-    */
-
+        return roomMapper.mapToRoomDtos(rooms);
     }
     private Predicate<Room> isOccupied(List<UUID> occupiedRooms) {
         return room -> occupiedRooms.contains(room.getId());
