@@ -18,7 +18,7 @@ public final class DataUtil {
         return OBJECT_MAPPER.writeValueAsString(domainObject);
     }
 
-    public static <T> T map(String data, Class<T> mapTarget) throws JsonProcessingException {
+    public static <T> T readValue(String data, Class<T> mapTarget) throws JsonProcessingException {
         return OBJECT_MAPPER.readValue(data, mapTarget);
     }
 }

@@ -1,12 +1,19 @@
 package com.mk.roombookingzaver.controller;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+
 import com.mk.roombookingzaver.entity.Booking;
 import com.mk.roombookingzaver.entity.Room;
 import com.mk.roombookingzaver.repository.BookingRepository;
 import com.mk.roombookingzaver.repository.RoomRepository;
-import com.mk.roombookingzaver.response.RoomResponseAll;
+import com.mk.roombookingzaver.response.RoomListResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import util.DataUtil;
 import util.FileUtils;
 import util.MapperUtil;
-
-import javax.xml.crypto.Data;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
 
 
 @SpringBootTest
@@ -43,8 +40,6 @@ public class RoomControllerTest {
     private BookingRepository bookingRepository;
 
     private final String baseUrl = "/app/v1/rooms";
-
-    private final ObjectMapper mapper = new ObjectMapper();
 
     @BeforeEach
     public void resetDb() throws IOException {
@@ -77,7 +72,7 @@ public class RoomControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        RoomResponseAll response = mapper.readValue(contentAsString, RoomResponseAll.class);
+        RoomListResponse response = DataUtil.readValue(contentAsString, RoomListResponse.class);
 
         //then
         assertEquals(response.getRooms().size(), 2);

@@ -13,16 +13,16 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mk.roombookingzaver.dto.ErrorResponse;
 import com.mk.roombookingzaver.entity.Booking;
 import com.mk.roombookingzaver.entity.Room;
 import com.mk.roombookingzaver.repository.BookingRepository;
 import com.mk.roombookingzaver.repository.RoomRepository;
 import com.mk.roombookingzaver.request.BookingRequest;
+import com.mk.roombookingzaver.response.BookingListResponse;
 import com.mk.roombookingzaver.response.BookingResponse;
-import com.mk.roombookingzaver.response.CurrentBookingsResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -50,8 +50,6 @@ public class BookingRoomControllerTest {
     private BookingRepository bookingRepository;
 
     private final String baseUrl = "/app/v1/bookings";
-
-    private final ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     @BeforeEach
     void setUpData() throws IOException {
@@ -95,7 +93,7 @@ private static List<BookingRequest> SuccessfulBookings() {
                 .getResponse()
                 .getContentAsString();
 
-        BookingResponse response = mapper.readValue(contentAsString, BookingResponse.class);
+        BookingResponse response = DataUtil.readValue(contentAsString, BookingResponse.class);
 
         //then
         assertNotNull(response.getBooking().getId());
@@ -127,11 +125,84 @@ private static List<BookingRequest> SuccessfulBookings() {
                 .getResponse()
                 .getContentAsString();
 
-        CurrentBookingsResponse response = mapper.readValue(contentAsString, CurrentBookingsResponse.class);
+        BookingListResponse response = DataUtil.readValue(contentAsString, BookingListResponse.class);
 
         //then
-        assertEquals(response.getBooking().size(), 1);
-        assertNull(response.getBooking().get(0).getArchived());
+        assertEquals(response.getBookings().size(), 1);
+        assertNull(response.getBookings().get(0).getArchived());
+    }
+
+    @Test
+    public void givenCreateBookingWithWrongRoomId_whenCreateBooking_returnRoomNotFoundException() throws Exception {
+        //given
+        BookingRequest bookingRequest = new BookingRequest(
+                UUID.fromString("ac2e66bc-9f28-4608-abf9-43d14bd7dca9"),
+                LocalDate.of(2023,12,25),
+                LocalDate.of(2023,12,31));
+
+        //when
+        String contentAsString = mockMvc.perform(post(baseUrl)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(DataUtil.convertObjectToString(bookingRequest)))
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ErrorResponse response = DataUtil.readValue(contentAsString, ErrorResponse.class);
+
+        //then
+        assertEquals(response.getId(), Integer.toString(1));
+        assertEquals(response.getMessage(), "Booking not found");
+    }
+
+
+    @Test
+    public void givenCreateBookingOnOccupiedDates_whenCreateBooking_returnRoomOccupiedException() throws Exception {
+        //given
+        BookingRequest bookingRequest = new BookingRequest(
+                UUID.fromString("ae8c05e8-4a2a-4774-89a9-7bc155e2d7a1"),
+                LocalDate.of(2023,12,25),
+                LocalDate.of(2023,12,31));
+
+        //when
+        String contentAsString = mockMvc.perform(post(baseUrl)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(DataUtil.convertObjectToString(bookingRequest)))
+                .andExpect(status().isConflict())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ErrorResponse response = DataUtil.readValue(contentAsString, ErrorResponse.class);
+
+        //then
+        assertEquals(response.getId(), Integer.toString(2));
+        assertEquals(response.getMessage(), "Booking dates are overlapping with already existing booking");
+    }
+
+    @Test
+    public void givenCancelBookingForNonExistingBookingId_whenCancelBooking_returnRoomNotFoundException() throws Exception {
+        //given
+        BookingRequest bookingRequest = new BookingRequest(
+                UUID.randomUUID(),
+                LocalDate.of(2023,12,25),
+                LocalDate.of(2023,12,31));
+
+        //when
+        String contentAsString = mockMvc.perform(post(baseUrl)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(DataUtil.convertObjectToString(bookingRequest)))
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ErrorResponse response = DataUtil.readValue(contentAsString, ErrorResponse.class);
+
+        //then
+        assertEquals(response.getId(), Integer.toString(1));
+        assertEquals(response.getMessage(), "Booking not found");
     }
 
 }
