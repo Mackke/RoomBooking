@@ -15,13 +15,13 @@ import java.util.stream.Stream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.mk.roombookingzaver.entity.Booking;
-import com.mk.roombookingzaver.entity.Room;
-import com.mk.roombookingzaver.repository.BookingRepository;
-import com.mk.roombookingzaver.repository.RoomRepository;
-import com.mk.roombookingzaver.request.BookingRequest;
-import com.mk.roombookingzaver.response.BookingResponse;
-import com.mk.roombookingzaver.response.CurrentBookingsResponse;
+import com.mk.roombookingzaver.data.entity.Booking;
+import com.mk.roombookingzaver.data.entity.Room;
+import com.mk.roombookingzaver.data.repository.BookingRepository;
+import com.mk.roombookingzaver.data.repository.RoomRepository;
+import com.mk.roombookingzaver.api.dto.BookingRequest;
+import com.mk.roombookingzaver.api.dto.BookingResponse;
+import com.mk.roombookingzaver.api.dto.BookingListResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -127,11 +127,11 @@ private static List<BookingRequest> SuccessfulBookings() {
                 .getResponse()
                 .getContentAsString();
 
-        CurrentBookingsResponse response = mapper.readValue(contentAsString, CurrentBookingsResponse.class);
+        BookingListResponse response = mapper.readValue(contentAsString, BookingListResponse.class);
 
         //then
-        assertEquals(response.getBooking().size(), 1);
-        assertNull(response.getBooking().get(0).getArchived());
+        assertEquals(response.getBookings().size(), 1);
+        assertNull(response.getBookings().get(0).getArchived());
     }
 
 }

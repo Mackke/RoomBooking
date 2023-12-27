@@ -1,4 +1,4 @@
-package com.mk.roombookingzaver.entity;
+package com.mk.roombookingzaver.data.entity;
 
 
 import java.time.LocalDate;

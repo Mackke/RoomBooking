@@ -2,11 +2,11 @@ package com.mk.roombookingzaver.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mk.roombookingzaver.entity.Booking;
-import com.mk.roombookingzaver.entity.Room;
-import com.mk.roombookingzaver.repository.BookingRepository;
-import com.mk.roombookingzaver.repository.RoomRepository;
-import com.mk.roombookingzaver.response.RoomResponseAll;
+import com.mk.roombookingzaver.data.entity.Booking;
+import com.mk.roombookingzaver.data.entity.Room;
+import com.mk.roombookingzaver.data.repository.BookingRepository;
+import com.mk.roombookingzaver.data.repository.RoomRepository;
+import com.mk.roombookingzaver.api.dto.RoomListResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import util.DataUtil;
 import util.FileUtils;
 import util.MapperUtil;
-
-import javax.xml.crypto.Data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -77,7 +74,7 @@ public class RoomControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        RoomResponseAll response = mapper.readValue(contentAsString, RoomResponseAll.class);
+        RoomListResponse response = mapper.readValue(contentAsString, RoomListResponse.class);
 
         //then
         assertEquals(response.getRooms().size(), 2);

@@ -1,5 +1,7 @@
 package com.mk.roombookingzaver.service;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -7,15 +9,16 @@ import java.util.UUID;
 import com.mk.roombookingzaver.exception.BookingNotFoundException;
 import com.mk.roombookingzaver.exception.RoomNotFoundException;
 import com.mk.roombookingzaver.exception.RoomOccupiedException;
-import com.mk.roombookingzaver.dto.BookingDto;
-import com.mk.roombookingzaver.dto.RoomDto;
-import com.mk.roombookingzaver.entity.Booking;
-import com.mk.roombookingzaver.entity.Room;
-import com.mk.roombookingzaver.repository.BookingRepository;
-import com.mk.roombookingzaver.repository.RoomRepository;
-import com.mk.roombookingzaver.request.BookingRequest;
-import com.mk.roombookingzaver.response.BookingResponse;
-import com.mk.roombookingzaver.response.CurrentBookingsResponse;
+import com.mk.roombookingzaver.api.dto.BookingDto;
+import com.mk.roombookingzaver.api.dto.RoomDto;
+import com.mk.roombookingzaver.data.entity.Booking;
+import com.mk.roombookingzaver.data.entity.Room;
+import com.mk.roombookingzaver.data.repository.BookingRepository;
+import com.mk.roombookingzaver.data.repository.RoomRepository;
+import com.mk.roombookingzaver.api.dto.BookingRequest;
+import com.mk.roombookingzaver.api.dto.BookingResponse;
+import com.mk.roombookingzaver.api.dto.BookingListResponse;
+import com.mk.roombookingzaver.mapper.BookingMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,25 +31,17 @@ public class BookingService {
 
     private final RoomRepository roomRepository;
 
-    public CurrentBookingsResponse getCurrentBookings(LocalDate startDate, LocalDate endDate) {
-        List<Booking> bookings = bookingRepository.currentBookings2(startDate, endDate);
+    private final BookingMapper mapper;
 
-        List<BookingDto> listOfCurrentBookings = bookings.stream().map(booking -> BookingDto.builder()
-                .id(booking.getId())
-                .room(RoomDto.builder()
-                        .id(booking.getRoom().getId())
-                        .name(booking.getRoom().getName())
-                        .type(booking.getRoom().getType())
-                        .description(booking.getRoom().getDescription())
-                        .price(booking.getRoom().getPrice())
-                        .beds(booking.getRoom().getBeds())
-                        .build())
-                .startDate(booking.getStartDate())
-                .endDate(booking.getEndDate())
-                .archived(booking.getArchived())
-                .build()).toList();
+    public BookingListResponse getCurrentBookings(LocalDate startDate, LocalDate endDate) {
+        List<Booking> bookings = bookingRepository.currentBookings(startDate, endDate);
 
-        return new CurrentBookingsResponse(listOfCurrentBookings);
+        List<BookingDto> listOfCurrentBookings = bookings
+                .stream()
+                .map(mapper::map)
+                .toList();
+
+        return new BookingListResponse(listOfCurrentBookings);
     }
 
     public BookingResponse createBooking(BookingRequest bookingRequest) {
@@ -59,7 +54,7 @@ public class BookingService {
         Booking booking = bookingRepository.save(new Booking(roomToBeBooked, bookingRequest.getStartDate(), bookingRequest.getEndDate()));
 
 
-        return new BookingResponse(mapToDto(booking));
+        return new BookingResponse(mapper.map(booking));
     }
 
     public BookingResponse cancelBookingById(UUID bookingId) {
@@ -85,6 +80,8 @@ public class BookingService {
             throw new RoomOccupiedException("Booking dates are over laps with already existing booking");
         }
     }
+
+
 
     private BookingDto mapToDto(Booking booking) {
         return BookingDto.builder()

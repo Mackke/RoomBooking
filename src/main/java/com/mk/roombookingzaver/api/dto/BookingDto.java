@@ -1,4 +1,4 @@
-package com.mk.roombookingzaver.dto;
+package com.mk.roombookingzaver.api.dto;
 
 import java.time.LocalDate;
 import java.util.UUID;
