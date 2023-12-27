@@ -6,7 +6,7 @@ import com.mk.roombookingzaver.entity.Booking;
 import com.mk.roombookingzaver.entity.Room;
 import com.mk.roombookingzaver.repository.BookingRepository;
 import com.mk.roombookingzaver.repository.RoomRepository;
-import com.mk.roombookingzaver.response.RoomResponseAll;
+import com.mk.roombookingzaver.response.RoomListResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +42,6 @@ public class RoomControllerTest {
 
     private final String baseUrl = "/app/v1/rooms";
 
-    private final ObjectMapper mapper = new ObjectMapper();
-
     @BeforeEach
     public void resetDb() throws IOException {
         String roomsJson = FileUtils.readFromFileToString("/rooms.json");
@@ -75,7 +73,7 @@ public class RoomControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        RoomResponseAll response = mapper.readValue(contentAsString, RoomResponseAll.class);
+        RoomListResponse response = DataUtil.readValue(contentAsString, RoomListResponse.class);
 
         //then
         assertEquals(response.getRooms().size(), 2);

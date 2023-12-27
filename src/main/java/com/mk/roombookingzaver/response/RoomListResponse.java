@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoomResponseAllAvailable {
-    List<RoomDto> availableRooms;
+public class RoomListResponse {
+    private List<RoomDto> rooms;
 }

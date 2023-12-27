@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CurrentBookingsResponse {
-    private List<BookingDto> booking;
+public class BookingListResponse {
+    private List<BookingDto> bookings;
 }
