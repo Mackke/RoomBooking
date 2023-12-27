@@ -17,6 +17,7 @@ import com.mk.roombookingzaver.entity.Room;
 import com.mk.roombookingzaver.exception.BookingNotFoundException;
 import com.mk.roombookingzaver.exception.RoomOccupiedException;
 import com.mk.roombookingzaver.mapper.BookingMapper;
+import com.mk.roombookingzaver.mapper.BookingMapperImpl;
 import com.mk.roombookingzaver.mapper.RoomMapper;
 import com.mk.roombookingzaver.repository.BookingRepository;
 import com.mk.roombookingzaver.repository.RoomRepository;
@@ -35,7 +36,7 @@ public class BookingServiceTest {
 
     private BookingService bookingService;
 
-    private BookingMapper bookingMapper;
+
 
     @MockBean
     private BookingRepository bookingRepository;
@@ -44,7 +45,10 @@ public class BookingServiceTest {
     private RoomRepository roomRepository;
 
     @BeforeEach
-    void setUp() { bookingService = new BookingService(bookingRepository, roomRepository, bookingMapper); }
+    void setUp() {
+        var bookingMapper = new BookingMapperImpl();
+        bookingService = new BookingService(bookingRepository, roomRepository, bookingMapper);
+    }
 
     private static List<BookingRequest> unSuccessfulBookings() {
         return List.of(new BookingRequest(
