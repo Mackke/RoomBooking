@@ -37,6 +37,12 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
 """,nativeQuery = true)
     List<Booking> currentBookings(LocalDate startDate, LocalDate endDate);
 
+
+    @Query(value = "SELECT * FROM booking " +
+            "WHERE (start_date < :endDate AND end_date > :startDate) " +
+            "AND archived IS NULL", nativeQuery = true)
+    List<Booking> currentBookings2(LocalDate startDate, LocalDate endDate);
+
     @Query(value = """
                 SELECT * 
                 FROM booking as b
