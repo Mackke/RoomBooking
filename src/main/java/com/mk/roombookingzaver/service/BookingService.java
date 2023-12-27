@@ -14,7 +14,7 @@ import com.mk.roombookingzaver.exception.RoomOccupiedException;
 import com.mk.roombookingzaver.mapper.BookingMapper;
 import com.mk.roombookingzaver.repository.BookingRepository;
 import com.mk.roombookingzaver.repository.RoomRepository;
-import com.mk.roombookingzaver.request.BookingRequest;
+import com.mk.roombookingzaver.dto.BookingRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

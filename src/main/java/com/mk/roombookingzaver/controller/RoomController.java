@@ -3,7 +3,7 @@ package com.mk.roombookingzaver.controller;
 
 import java.time.LocalDate;
 
-import com.mk.roombookingzaver.response.RoomListResponse;
+import com.mk.roombookingzaver.dto.RoomListResponse;
 import com.mk.roombookingzaver.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

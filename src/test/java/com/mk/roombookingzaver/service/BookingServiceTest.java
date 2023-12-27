@@ -19,7 +19,7 @@ import com.mk.roombookingzaver.exception.RoomOccupiedException;
 import com.mk.roombookingzaver.mapper.BookingMapper;
 import com.mk.roombookingzaver.repository.BookingRepository;
 import com.mk.roombookingzaver.repository.RoomRepository;
-import com.mk.roombookingzaver.request.BookingRequest;
+import com.mk.roombookingzaver.dto.BookingRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +35,6 @@ public class BookingServiceTest {
 
     private BookingService bookingService;
 
-    private final BookingMapper bookingMapper = Mappers.getMapper(BookingMapper.class);
 
     @MockBean
     private BookingRepository bookingRepository;
@@ -45,25 +44,27 @@ public class BookingServiceTest {
 
     @BeforeEach
     void setUp() {
-        bookingService = new BookingService(bookingRepository, roomRepository, bookingMapper); }
+        BookingMapper bookingMapper = Mappers.getMapper(BookingMapper.class);
+        bookingService = new BookingService(bookingRepository, roomRepository, bookingMapper);
+    }
 
     private static List<BookingRequest> unSuccessfulBookings() {
         return List.of(new BookingRequest(
                         UUID.fromString("4f0a3a35-06a4-4a6f-9207-c8fe00a0e819"),
-                        LocalDate.of(2023,12,20),
-                        LocalDate.of(2023,12,29)),
+                        LocalDate.of(2023, 12, 20),
+                        LocalDate.of(2023, 12, 29)),
                 new BookingRequest(
                         UUID.fromString("4f0a3a35-06a4-4a6f-9207-c8fe00a0e819"),
-                        LocalDate.of(2023,12,22),
-                        LocalDate.of(2023,12,27)),
+                        LocalDate.of(2023, 12, 22),
+                        LocalDate.of(2023, 12, 27)),
                 new BookingRequest(
                         UUID.fromString("4f0a3a35-06a4-4a6f-9207-c8fe00a0e819"),
-                        LocalDate.of(2023,12,15),
-                        LocalDate.of(2023,12, 21)),
+                        LocalDate.of(2023, 12, 15),
+                        LocalDate.of(2023, 12, 21)),
                 new BookingRequest(
                         UUID.fromString("4f0a3a35-06a4-4a6f-9207-c8fe00a0e819"),
-                        LocalDate.of(2023,12,25),
-                        LocalDate.of(2024,1,4)));
+                        LocalDate.of(2023, 12, 25),
+                        LocalDate.of(2024, 1, 4)));
     }
 
     @ParameterizedTest

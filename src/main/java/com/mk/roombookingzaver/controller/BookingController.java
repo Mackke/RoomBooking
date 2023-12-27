@@ -4,9 +4,9 @@ package com.mk.roombookingzaver.controller;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import com.mk.roombookingzaver.request.BookingRequest;
-import com.mk.roombookingzaver.response.BookingListResponse;
-import com.mk.roombookingzaver.response.BookingResponse;
+import com.mk.roombookingzaver.dto.BookingRequest;
+import com.mk.roombookingzaver.dto.BookingListResponse;
+import com.mk.roombookingzaver.dto.BookingResponse;
 import com.mk.roombookingzaver.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

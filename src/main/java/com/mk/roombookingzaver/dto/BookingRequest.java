@@ -1,4 +1,4 @@
-package com.mk.roombookingzaver.request;
+package com.mk.roombookingzaver.dto;
 
 
 import java.time.LocalDate;

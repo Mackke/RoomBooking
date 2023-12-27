@@ -1,4 +1,4 @@
-package com.mk.roombookingzaver.response;
+package com.mk.roombookingzaver.dto;
 
 
 import com.mk.roombookingzaver.dto.BookingDto;

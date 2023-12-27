@@ -13,7 +13,7 @@ import com.mk.roombookingzaver.entity.Booking;
 import com.mk.roombookingzaver.entity.Room;
 import com.mk.roombookingzaver.repository.BookingRepository;
 import com.mk.roombookingzaver.repository.RoomRepository;
-import com.mk.roombookingzaver.response.RoomListResponse;
+import com.mk.roombookingzaver.dto.RoomListResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
