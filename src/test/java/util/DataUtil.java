@@ -14,7 +14,11 @@ public final class DataUtil {
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
-        public static String convertObjectToString(Object domainObject) throws JsonProcessingException {
-            return OBJECT_MAPPER.writeValueAsString(domainObject);
-        }
+    public static String convertObjectToString(Object domainObject) throws JsonProcessingException {
+        return OBJECT_MAPPER.writeValueAsString(domainObject);
+    }
+
+    public static <T> T map(String data, Class<T> mapTarget) throws JsonProcessingException {
+        return OBJECT_MAPPER.readValue(data, mapTarget);
+    }
 }

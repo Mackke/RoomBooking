@@ -29,7 +29,7 @@ public class BookingService {
     private final RoomRepository roomRepository;
 
     public CurrentBookingsResponse getCurrentBookings(LocalDate startDate, LocalDate endDate) {
-        List<Booking> bookings = bookingRepository.currentBookings(startDate, endDate);
+        List<Booking> bookings = bookingRepository.currentBookings2(startDate, endDate);
 
         List<BookingDto> listOfCurrentBookings = bookings.stream().map(booking -> BookingDto.builder()
                 .id(booking.getId())
@@ -58,21 +58,8 @@ public class BookingService {
 
         Booking booking = bookingRepository.save(new Booking(roomToBeBooked, bookingRequest.getStartDate(), bookingRequest.getEndDate()));
 
-        BookingDto bookingDto = BookingDto.builder()
-                .id(booking.getId())
-                .room(RoomDto.builder().id(booking.getRoom().getId())
-                        .name(booking.getRoom().getName())
-                        .type(booking.getRoom().getType())
-                        .description(booking.getRoom().getDescription())
-                        .price(booking.getRoom().getPrice())
-                        .beds(booking.getRoom().getBeds())
-                        .build())
-                .startDate(booking.getStartDate())
-                .endDate(booking.getEndDate())
-                .archived(booking.getArchived())
-                .build();
 
-        return new BookingResponse(bookingDto);
+        return new BookingResponse(mapToDto(booking));
     }
 
     public BookingResponse cancelBookingById(UUID bookingId) {
@@ -81,21 +68,7 @@ public class BookingService {
         persistedBooking.setArchived(LocalDate.now());
         bookingRepository.save(persistedBooking);
 
-        BookingDto canceledBooking = BookingDto.builder()
-                .id(persistedBooking.getId())
-                .room(RoomDto.builder().id(persistedBooking.getRoom().getId())
-                        .name(persistedBooking.getRoom().getName())
-                        .type(persistedBooking.getRoom().getType())
-                        .description(persistedBooking.getRoom().getDescription())
-                        .price(persistedBooking.getRoom().getPrice())
-                        .beds(persistedBooking.getRoom().getBeds())
-                        .build())
-                .startDate(persistedBooking.getStartDate())
-                .endDate(persistedBooking.getEndDate())
-                .archived(persistedBooking.getArchived())
-                .build();
-
-        return new BookingResponse(canceledBooking);
+        return new BookingResponse(mapToDto(persistedBooking));
     }
 
     public void validateRoomAvailability(List<Booking> bookings, LocalDate startDate, LocalDate endDate) {
@@ -111,5 +84,21 @@ public class BookingService {
         if (!doubleBookings.isEmpty()) {
             throw new RoomOccupiedException("Booking dates are over laps with already existing booking");
         }
+    }
+
+    private BookingDto mapToDto(Booking booking) {
+        return BookingDto.builder()
+                .id(booking.getId())
+                .room(RoomDto.builder().id(booking.getRoom().getId())
+                        .name(booking.getRoom().getName())
+                        .type(booking.getRoom().getType())
+                        .description(booking.getRoom().getDescription())
+                        .price(booking.getRoom().getPrice())
+                        .beds(booking.getRoom().getBeds())
+                        .build())
+                .startDate(booking.getStartDate())
+                .endDate(booking.getEndDate())
+                .archived(booking.getArchived())
+                .build();
     }
 }

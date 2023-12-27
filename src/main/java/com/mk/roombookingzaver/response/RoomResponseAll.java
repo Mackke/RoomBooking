@@ -14,4 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoomResponseAll {
     private List<RoomDto> rooms;
+
+    // {
+    //   "rooms": []
+    //}
 }
